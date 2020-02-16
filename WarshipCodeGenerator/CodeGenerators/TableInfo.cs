@@ -39,10 +39,7 @@ namespace WarshipCodeGenerator.CodeGenerators
 
             if (tableSplitNames[0].Equals(ignoreFirstPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                if (tableSplitNames.Length > 2)
-                {
-                    return tableSplitNames[1].ToUpperFirst();
-                }
+                return tableSplitNames[1].ToUpperFirst();
             }
             else if (tableSplitNames.Length > 1)
             {
