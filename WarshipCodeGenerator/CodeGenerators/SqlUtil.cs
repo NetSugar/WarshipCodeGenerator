@@ -218,6 +218,7 @@ namespace WarshipCodeGenerator.CodeGenerators
                     break;
 
                 case "text":
+                case "longtext":
                 case "char":
                 case "nvarchar":
                 case "nchar":

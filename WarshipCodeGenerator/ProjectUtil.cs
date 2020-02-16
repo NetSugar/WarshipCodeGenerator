@@ -1,10 +1,6 @@
 ﻿using EnvDTE;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WarshipCodeGenerator
 {
@@ -17,7 +13,43 @@ namespace WarshipCodeGenerator
         public static string GetBaseProjectDirPath(Project topProject, ProjectItem selectProjectItem)
         {
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-            return topProject.FullName.Substring(0, topProject.FullName.LastIndexOf(Path.DirectorySeparatorChar));
+            var fileBasePath = topProject.FullName.Substring(0, topProject.FullName.LastIndexOf(Path.DirectorySeparatorChar));
+            //先判断当前文件加是否包含.sln文件，没有则从上级查找
+            if (IsContainFile(fileBasePath, "*.sln"))
+            {
+                return fileBasePath;
+            }
+            else
+            {
+                var prevFilePath = fileBasePath.Substring(0, fileBasePath.LastIndexOf(Path.DirectorySeparatorChar));
+                if (IsContainFile(prevFilePath, "*.sln"))
+                {
+                    return prevFilePath;
+                }
+                var sencondFilePath = prevFilePath.Substring(0, prevFilePath.LastIndexOf(Path.DirectorySeparatorChar));
+                if (IsContainFile(sencondFilePath, ".sln"))
+                {
+                    return sencondFilePath;
+                }
+                var thirdFilePath = sencondFilePath.Substring(0, sencondFilePath.LastIndexOf(Path.DirectorySeparatorChar));
+                if (IsContainFile(thirdFilePath, ".sln"))
+                {
+                    return thirdFilePath;
+                }
+            }
+            return fileBasePath;
+        }
+
+        private static bool IsContainFile(string baseDirectory, string fileFilter)
+        {
+            DirectoryInfo theFolder = new DirectoryInfo(baseDirectory);
+
+            FileInfo[] thefileInfos = theFolder.GetFiles(fileFilter, SearchOption.TopDirectoryOnly);
+            if (thefileInfos != null && thefileInfos.Length > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
