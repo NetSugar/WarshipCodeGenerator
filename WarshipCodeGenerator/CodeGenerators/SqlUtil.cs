@@ -54,7 +54,7 @@ namespace WarshipCodeGenerator.CodeGenerators
             }
             if (!string.IsNullOrWhiteSpace(tablePrefix))
             {
-                sqlBuilder.Append($" and TABLE_NAME LIKE CONCAT('{tablePrefix}','%')'");
+                sqlBuilder.Append($" and TABLE_NAME LIKE CONCAT('{tablePrefix}','%')");
             }
             sqlBuilder.Append(" order by CREATE_TIME;");
             return sqlBuilder.ToString();
@@ -126,7 +126,7 @@ namespace WarshipCodeGenerator.CodeGenerators
             }
             if (!string.IsNullOrWhiteSpace(tablePrefix))
             {
-                stringBuilder.Append($" and a.TABLE_NAME LIKE CONCAT('{tablePrefix}','%')'");
+                stringBuilder.Append($" and a.TABLE_NAME LIKE CONCAT('{tablePrefix}','%')");
             }
             stringBuilder.Append(" order by a.table_name,B.ORDINAL_POSITION;");
             return stringBuilder.ToString();
