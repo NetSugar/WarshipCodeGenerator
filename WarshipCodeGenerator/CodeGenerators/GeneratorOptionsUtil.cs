@@ -81,6 +81,20 @@ namespace WarshipCodeGenerator.CodeGenerators
                             generatorOptions.BaseProjectPath = classAttribute.Value.Trim().TrimStart('"').TrimEnd('"');
                         }
                         break;
+                    //[CodeGeneratorIsPublished(true)]
+                    case "codegeneratorispublished":
+                        if (!string.IsNullOrEmpty(classAttribute.Value?.TrimStart('"').TrimEnd('"')))
+                        {
+                            generatorOptions.IsPublished = bool.Parse(classAttribute.Value.Trim().TrimStart('"').TrimEnd('"'));
+                        }
+                        break;
+                    //[CodeGeneratorWarshipVersion("1.0.0.0")]
+                    case "codegeneratorwarshipversion":
+                        if (!string.IsNullOrEmpty(classAttribute.Value?.TrimStart('"').TrimEnd('"')))
+                        {
+                            generatorOptions.WarshipVersion = classAttribute.Value.Trim().TrimStart('"').TrimEnd('"');
+                        }
+                        break;
                 }
             }
             generatorOptions.Check();

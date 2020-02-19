@@ -26,7 +26,7 @@ namespace WarshipCodeGenerator.CodeGenerators
 
         public string WarshipVersion { get; set; } = "1.0.0.0";
 
-        public bool IsPublished { get; set; } = false;
+        public bool IsPublished { get; set; } = true;
 
         public string BaseNameSpace { get; set; }
 
