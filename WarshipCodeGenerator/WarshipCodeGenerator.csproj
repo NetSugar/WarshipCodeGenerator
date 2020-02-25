@@ -50,11 +50,13 @@
     <Compile Include="CodeGenerators\DatabaseType.cs" />
     <Compile Include="CodeGenerators\FileUtil.cs" />
     <Compile Include="CodeGenerators\GeneralApplicationUtil.cs" />
+    <Compile Include="CodeGenerators\GeneralCacheUtil.cs" />
     <Compile Include="CodeGenerators\GeneralConstantsUtil.cs" />
     <Compile Include="CodeGenerators\GeneralDataTransferUtil.cs" />
     <Compile Include="CodeGenerators\GeneralDomainServiceUtil.cs" />
     <Compile Include="CodeGenerators\GeneralDomainUtil.cs" />
     <Compile Include="CodeGenerators\GeneralRepositoryUtil.cs" />
+    <Compile Include="CodeGenerators\GeneralUnitOfWorkUtil.cs" />
     <Compile Include="CodeGenerators\GeneratorOptions.cs" />
     <Compile Include="CodeGenerators\GeneratorOptionsUtil.cs" />
     <Compile Include="CodeGenerators\InternalUtil.cs" />

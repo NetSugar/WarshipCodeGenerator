@@ -13,7 +13,7 @@ namespace WarshipCodeGenerator.CodeGenerators
         public static void Start(string targetFramwork, string baseNameSpace, string ignoreFirstPrefix, IEnumerable<TableInfo> tables, GeneratorOptions generatorOptions)
         {
             var projectDirectory = InternalUtil.CreateProjectDirectory($"{baseNameSpace}.DomainService", generatorOptions.BaseProjectPath);
-            _ = InternalUtil.CreateProjectFile(targetFramwork, projectDirectory, $"{baseNameSpace}.DomainService.csproj", generatorOptions.IsPublished, generatorOptions.WarshipVersion, isAutoIncludeWarshap: true, $"{baseNameSpace}.Domain", $"{baseNameSpace}.Repository");
+            _ = InternalUtil.CreateProjectFile(targetFramwork, projectDirectory, $"{baseNameSpace}.DomainService.csproj", generatorOptions.IsPublished, generatorOptions.WarshipVersion, isAutoIncludeWarshap: true, $"{baseNameSpace}.Domain", $"{baseNameSpace}.Repository", $"{baseNameSpace}.Cache");
             if (tables != null)
             {
                 foreach (var tableInfo in tables)

@@ -16,10 +16,12 @@ namespace WarshipCodeGenerator.CodeGenerators
             if (result.Item1 != null)
             {
                 GeneralConstantsUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item2, result.Item1, generatorOptions);
+                GeneralUnitOfWorkUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item2, result.Item1, generatorOptions);
                 GeneralDomainUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item1, generatorOptions);
                 GeneralRepositoryUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item2, result.Item1, generatorOptions);
+                GeneralCacheUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item2, result.Item1, generatorOptions);
                 GeneralDomainServiceUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item1, generatorOptions);
-                GeneralApplicationUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item1, generatorOptions);
+                GeneralApplicationUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item2, result.Item1, generatorOptions);
                 GeneralDataTransferUtil.Start(generatorOptions.TargetFramwork, generatorOptions.BaseNameSpace, generatorOptions.IgnorePrefix, result.Item1, generatorOptions);
             }
             //将解决方法包含到项目中

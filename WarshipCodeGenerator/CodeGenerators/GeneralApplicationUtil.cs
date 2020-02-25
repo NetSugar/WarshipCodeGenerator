@@ -10,10 +10,10 @@ namespace WarshipCodeGenerator.CodeGenerators
     /// </summary>
     public class GeneralApplicationUtil
     {
-        public static void Start(string targetFramwork, string baseNameSpace, string ignoreFirstPrefix, IEnumerable<TableInfo> tables, GeneratorOptions generatorOptions)
+        public static void Start(string targetFramwork, string baseNameSpace, string ignoreFirstPrefix, string dataBaseName, IEnumerable<TableInfo> tables, GeneratorOptions generatorOptions)
         {
             var projectDirectory = InternalUtil.CreateProjectDirectory($"{baseNameSpace}.Application", generatorOptions.BaseProjectPath);
-            _ = InternalUtil.CreateProjectFile(targetFramwork, projectDirectory, $"{baseNameSpace}.Application.csproj", generatorOptions.IsPublished, generatorOptions.WarshipVersion, isAutoIncludeWarshap: true, $"{baseNameSpace}.Domain", $"{baseNameSpace}.Repository", $"{baseNameSpace}.DomainService");
+            _ = InternalUtil.CreateProjectFile(targetFramwork, projectDirectory, $"{baseNameSpace}.Application.csproj", generatorOptions.IsPublished, generatorOptions.WarshipVersion, isAutoIncludeWarshap: true, $"{baseNameSpace}.Domain", $"{baseNameSpace}.Repository", $"{baseNameSpace}.DomainService", $"{baseNameSpace}.Cache", $"{baseNameSpace}.UnitOfWork");
             if (tables != null)
             {
                 foreach (var tableInfo in tables)
@@ -30,7 +30,7 @@ namespace WarshipCodeGenerator.CodeGenerators
                     }
                     CreateInterface(baseFilePath, baseNameSpace, ignoreFirstPrefix, tableInfo, generatorOptions);
                     baseFilePath = FileUtil.CreateDirectory(baseFilePath, "Implement");
-                    CreateImplement(baseFilePath, baseNameSpace, ignoreFirstPrefix, tableInfo);
+                    CreateImplement(baseFilePath, baseNameSpace, ignoreFirstPrefix, tableInfo, dataBaseName);
                 }
             }
         }
@@ -67,21 +67,24 @@ namespace WarshipCodeGenerator.CodeGenerators
             return stringBuilder.ToString();
         }
 
-        private static void CreateImplement(string baseFilePath, string baseNameSpace, string ignoreFirstPrefix, TableInfo tableInfo)
+        private static void CreateImplement(string baseFilePath, string baseNameSpace, string ignoreFirstPrefix, TableInfo tableInfo, string dataBaseName)
         {
             if (!FileUtil.IsExistsFile(baseFilePath, $"{tableInfo.GetApplicationName(ignoreFirstPrefix)}.cs"))
             {
-                FileUtil.CreateFile(baseFilePath, $"{tableInfo.GetApplicationName(ignoreFirstPrefix)}.cs", GetImplementStr(baseNameSpace, ignoreFirstPrefix, tableInfo));
+                FileUtil.CreateFile(baseFilePath, $"{tableInfo.GetApplicationName(ignoreFirstPrefix)}.cs", GetImplementStr(baseNameSpace, ignoreFirstPrefix, tableInfo, dataBaseName));
             }
         }
 
-        private static string GetImplementStr(string baseNameSpace, string ignoreFirstPrefix, TableInfo tableInfo)
+        private static string GetImplementStr(string baseNameSpace, string ignoreFirstPrefix, TableInfo tableInfo, string dataBaseName)
         {
             var bizName = tableInfo.GetBizName(ignoreFirstPrefix);
             var bizNameSpace = string.IsNullOrWhiteSpace(bizName) ? string.Empty : "." + bizName;
             StringBuilder stringBuilder = new StringBuilder();
             var domainWithoutInfo = tableInfo.GetDomainNameWithoutInfo(ignoreFirstPrefix);
             stringBuilder.AppendLine("using Warship.Results;")
+                         .AppendLine("using Warship.Application;")
+                         .AppendLine("using Warship.Logging;")
+                         .AppendLine($"using {baseNameSpace}.UnitOfWork;")
                          .AppendFormat("using {0}.Repository{1};", baseNameSpace, bizNameSpace).AppendLine().AppendLine()
                          .AppendFormat("namespace {0}.Application{1}.Implement", baseNameSpace, bizNameSpace).AppendLine()
                          .AppendLine("{")
@@ -90,11 +93,11 @@ namespace WarshipCodeGenerator.CodeGenerators
                          .AppendFormat("\t/// table：{0}", tableInfo.TableName).AppendLine()
                          .AppendFormat("\t/// author：template {0}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")).AppendLine()
                          .AppendLine("\t/// </summary>")
-                         .AppendFormat("\tpublic class {0}Application :I{0}Application", domainWithoutInfo).AppendLine()
+                         .AppendFormat("\tpublic class {0}Application : BaseApplication,I{0}Application", domainWithoutInfo).AppendLine()
                          .AppendLine("\t{")
                          .AppendFormat("\t\tprivate readonly I{0}Repository _{1}Repository;", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst()).AppendLine()
                          .AppendLine()
-                         .AppendFormat("\t\tpublic {0}Application(I{0}Repository {1}Repository)", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst()).AppendLine()
+                         .AppendFormat("\t\tpublic {0}Application(I{0}Repository {1}Repository, IWarshipLogger<{0}Application> warshipLogger, I{2}UnitOfWork unitOfWork) : base(warshipLogger, unitOfWork)", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst(), dataBaseName.ToUpperFirst()).AppendLine()
                          .AppendLine("\t\t{")
                          .AppendFormat("\t\t\t_{0}Repository = {0}Repository;", domainWithoutInfo.ToLowwerFirst()).AppendLine()
                          .AppendLine("\t\t}")

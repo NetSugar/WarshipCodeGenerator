@@ -119,6 +119,8 @@ namespace WarshipCodeGenerator.CodeGenerators
                 $"{baseNameSpace}.Application",
                 $"{baseNameSpace}.Constants",
                 $"{baseNameSpace}.Domain",
+                $"{baseNameSpace}.Cache",
+                $"{baseNameSpace}.UnitOfWork",
                 $"{baseNameSpace}.Repository",
                 $"{baseNameSpace}.DomainService",
                 $"{baseNameSpace}.DataTransfer",
