@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="WarshipCodeGenerator.3aa4c4b8-cf32-4035-b6ca-1f9a9a740226" Version="1.0.1" Language="zh-CN" Publisher="叶俊权" />
+        <Identity Id="WarshipCodeGenerator.3aa4c4b8-cf32-4035-b6ca-1f9a9a740226" Version="1.0.2" Language="zh-CN" Publisher="叶俊权" />
         <DisplayName>WarshipCodeGenerator</DisplayName>
         <Description xml:space="preserve">Warship 代码生成器</Description>
     </Metadata>

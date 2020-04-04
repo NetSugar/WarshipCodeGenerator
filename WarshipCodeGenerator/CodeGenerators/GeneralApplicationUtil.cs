@@ -83,7 +83,7 @@ namespace WarshipCodeGenerator.CodeGenerators
             var domainWithoutInfo = tableInfo.GetDomainNameWithoutInfo(ignoreFirstPrefix);
             stringBuilder.AppendLine("using Warship.Results;")
                          .AppendLine("using Warship.Application;")
-                         .AppendLine("using Warship.Logging;")
+                         .AppendLine("using Microsoft.Extensions.Logging;")
                          .AppendLine($"using {baseNameSpace}.UnitOfWork;")
                          .AppendFormat("using {0}.Repository{1};", baseNameSpace, bizNameSpace).AppendLine().AppendLine()
                          .AppendFormat("namespace {0}.Application{1}.Implement", baseNameSpace, bizNameSpace).AppendLine()
@@ -97,7 +97,7 @@ namespace WarshipCodeGenerator.CodeGenerators
                          .AppendLine("\t{")
                          .AppendFormat("\t\tprivate readonly I{0}Repository _{1}Repository;", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst()).AppendLine()
                          .AppendLine()
-                         .AppendFormat("\t\tpublic {0}Application(I{0}Repository {1}Repository, IWarshipLogger<{0}Application> warshipLogger, I{2}UnitOfWork unitOfWork) : base(warshipLogger, unitOfWork)", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst(), dataBaseName.ToUpperFirst()).AppendLine()
+                         .AppendFormat("\t\tpublic {0}Application(I{0}Repository {1}Repository, ILogger<{0}Application> warshipLogger, I{2}UnitOfWork unitOfWork) : base(warshipLogger, unitOfWork)", domainWithoutInfo, domainWithoutInfo.ToLowwerFirst(), dataBaseName.ToUpperFirst()).AppendLine()
                          .AppendLine("\t\t{")
                          .AppendFormat("\t\t\t_{0}Repository = {0}Repository;", domainWithoutInfo.ToLowwerFirst()).AppendLine()
                          .AppendLine("\t\t}")
